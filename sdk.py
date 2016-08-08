@@ -80,11 +80,12 @@ class PagoFlashTokenBuilder(object):
             'pr_price': pr_price, # Precio individual. Float, sin separadores de miles, utilizamos el punto (.) como separadores de Decimales. M�ximo dos decimales
             'pr_qty': pr_qty, # Cantidad, Entero sin separadores de miles  
             'pr_img': pr_img, # Direcci�n de imagen.  Debe ser una direcci�n (url) v�lida para la imagen.   
-        })
+        }) 
     
     def send(self, domain):
         request= PagoFlashHTTPRequest()
-        key_to_encript=str(self.order_info["PC_AMOUNT"])+str(self.order_info["PC_ORDER_NUMBER"])+str(self.authParams["KEY_TOKEN"])
+        amount_str="{0:.2f}".format( float(self.order_info["PC_AMOUNT"]) );
+        key_to_encript = amount_str + str(self.order_info["PC_ORDER_NUMBER"]) + str(self.authParams["KEY_TOKEN"])
         encripted_key=encript_width_secret(key_to_encript, str(self.authParams["KEY_SECRET"]))
         dataToSend=self.order_info
         dataToSend["PRODUCTS"]=self.products
